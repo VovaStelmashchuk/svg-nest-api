@@ -1,4 +1,4 @@
-FROM node:20
+FROM node:20-slim
 LABEL authors="vovastelmashchuk"
 
 # Install Puppeteer dependencies

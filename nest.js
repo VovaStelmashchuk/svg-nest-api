@@ -8,7 +8,7 @@ function delay(time) {
 }
 
 async function goNest(dirPath, filePath) {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({headless: true});
     const page = await browser.newPage();
 
     await page.setViewport({width: 1920, height: 1080})

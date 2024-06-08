@@ -15,7 +15,7 @@ async function goNest(dirPath, filePath) {
     const page = await browser.newPage();
 
     await page.setViewport({width: 1920, height: 1080})
-    await page.goto('http://localhost:5001');
+    await page.goto('https://svgnest.com/');
 
     const fileInput = await page.$('input[type="file"]');
     await fileInput.uploadFile(filePath);

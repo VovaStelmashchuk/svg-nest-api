@@ -22,6 +22,10 @@ app.get('/', function (req, res) {
 
 require('./nest');
 
+if (!fs.existsSync('data')) {
+    fs.mkdirSync('data');
+}
+
 app.post('/upload', async (req, res) => {
     const id = 'test-472394723';
 

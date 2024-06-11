@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+  nest2d-backend:
+    image: vovochkastelmashchuk/nest2d:0.6.5
+    container_name: nest2d-backend
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "5000:8080"
+    volumes:
+      - ./data-mount:/mount
+    depends_on:
+      - postgres
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: '256M'
+        reservations:
+          cpus: '0.2'
+          memory: '256M'
+  nest-js-api-app:
+    image: vovochkastelmashchuk/nest2d-nest-api:latest
+    env_file:
+      - .env
+    ports:
+      - "5001:3000"
+  postgres:
+    image: postgres:14-alpine
+    container_name: nest2d-postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=EzxtuFZkg8HdsGbTxjVoMbqH
+      - POSTGRES_USER=user_nest2d
+      - POSTGRES_DB=nest2d
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: '256M'
+        reservations:
+          cpus: '0.2'
+          memory: '256M'

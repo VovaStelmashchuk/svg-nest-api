@@ -1,4 +1,4 @@
-var express = require('express');
+const express = require('express');
 const axios = require('axios');
 const doNest = require('./nest');
 const fs = require("fs");
@@ -14,20 +14,19 @@ if (args[0]) {
     port = 3000;
 }
 
-app.use(express.static('public'));
-
 app.get('/', function (req, res) {
     res.send('Hello World!');
 });
 
 require('./nest');
+const {HttpStatusCode} = require("axios");
 
 if (!fs.existsSync('data')) {
     fs.mkdirSync('data');
 }
 
-app.post('/upload', async (req, res) => {
-    const id = 'test-472394723';
+app.post('/doNest', async (req, serverResponse) => {
+    const id = req.query.id;
 
     const url = `https://nest2d-prod.ams3.digitaloceanspaces.com/${id}/input.svg`
     const dirPath = `data/${id}`;
@@ -49,14 +48,16 @@ app.post('/upload', async (req, res) => {
         const res = await doNest.goNest(dirPath, filePath)
         removeRectFromSvg(res);
         await uploadFileToS3(`${id}/output.svg`, res)
-        console.log('Nest result: ', res);
+        serverResponse.status(200).send({
+            url: `https://nest2d-prod.ams3.digitaloceanspaces.com/${id}/output.svg`
+        });
     });
 
     writer.on('error', (error) => {
         console.error('Error occurred: ', error);
+        // return code 500 from rest api
+        serverResponse.status(500).send('Error occurred');
     });
-
-    res.send('File uploaded');
 });
 
 

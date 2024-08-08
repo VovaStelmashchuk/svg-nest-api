@@ -1,3 +1,6 @@
+
+## All development for https://nest2d.online/ moved to https://github.com/VovaStelmashchuk/nest2d
+
 # nodeSVGnest
 Node.js webserver wrapper for [SVGnest](https://github.com/Jack000/SVGnest)
 
